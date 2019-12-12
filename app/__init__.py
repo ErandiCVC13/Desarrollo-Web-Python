@@ -22,7 +22,12 @@ def create_app(config):
 
     
     csrf.init_app(app)
-    bootstrap.init_app(app)
+
+    if not app.config.get("TEST", False):
+        bootstrap.init_app(app)
+
+    app.app_context().push()
+
     login_manager.init_app(app)
     login_manager.login_view = ".login"
     login_manager.login_message = "Es necesario iniciar Sesión"
